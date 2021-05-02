@@ -34,7 +34,7 @@ Much love ❤
 
 Here's how UV's which will grab all the bass pulses will look like:
 
-
+![UV_Sample](uv_sample.png)
 
 The shader allows you to adjust the selected band in runtime (e.g., with an AV 3.0 slider)
 
