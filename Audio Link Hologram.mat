@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Audio Link Hologram
+  m_Shader: {fileID: 4800000, guid: f49179df97a44c93a5a7ff8e00e6e719, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _AudioFallbackTexture:
+        m_Texture: {fileID: 2800000, guid: 43b7182eeea52b045860dc2739463226, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _BPM: 128
+    - _Band: 1
+    - _BandMode: 0
+    - _EnableFallback: 0
+    - _Float0: 80
+    - _GlobalStrength: 1
+    - _HueAudioStrength: 0
+    - _HueShift: 0
+    - _HueSpeed: 0.185
+    - _Note: 1
+    - _RimEffect: 1
+    - _Saturation: 0.439
+    - _SaturationAudioStrength: 0.446
+    - _Width: 1
+    m_Colors:
+    - _Emission: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 0.85882354}
+    - _RimEdge: {r: 0.32326275, g: 0.32501963, b: 0.44799998, a: 1}
