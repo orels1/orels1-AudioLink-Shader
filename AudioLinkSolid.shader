@@ -1,56 +1,104 @@
-﻿Shader "Unlit/AudioLinkSolid"
+﻿Shader "orels1/AudioLink"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
+        [Header(AUDIO LOOKUP)]
+        [Enum(UV, 0, Global, 1)]_BandMode("Band Lookup Mode", Int) = 0
+        [IntRange]_Band("Band Selection", Range(1, 4)) = 1
+        _Width("Width", Range (-1, 1)) = 1
+
+        [Header(COLORS)]
+        [HDR]_Emission("Emission", Color) = (1,1,1,1)
+        [HDR]_RimEdge("Rim Darken Color ", Color) = (1,1,1,1)
+        _RimEffect("Rim Effect Strength", Range(0,1)) = 1
+        _GlobalStrength("Global Strength", Range(0,4)) = 1
+
+        [Header(CUSTOMIZATION)]
+        _HueSpeed("Hue Speed", Range(0, 1)) = 0.185
+        _HueShift("Hue Shift", Range(0,1)) = 0
+        _HueAudioStrength("Hue Audio Strength", Range(0, 1)) = 0
+        _Saturation("Saturation", Range(0,1)) = 0.439
+        _SaturationAudioStrength("Saturation Audio Strength", Range(0,1)) = 0.446
+
+        [Header(FALLBACK)]
+        [ToggleUI]_EnableFallback("Enable Fallback Mode", Float) = 0
+        _AudioFallbackTexture("Audio Link Fallback Texture", 2D) = "black" {}
+        [IntRange]_BPM("BPM", Range(70, 180)) = 128
+        [IntRange]_Note("Note", Range(1,32)) = 1
     }
+
     SubShader
     {
-        Tags { "RenderType"="Opaque" }
-        LOD 100
+        Tags
+        {
+            "RenderType"="Transparent" "Queue"="Transparent"
+        }
+        CGINCLUDE
+        #pragma target 4.0
+        ENDCG
 
         Pass
         {
+            Tags
+            {
+                "LightMode"="ForwardBase"
+            }
+            Cull Back
+            ZWrite On
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            // make fog work
-            #pragma multi_compile_fog
-            
+
             #include "UnityCG.cginc"
 
             struct appdata
             {
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
+                float3 normal : NORMAL;
             };
 
             struct v2f
             {
                 float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
                 float4 vertex : SV_POSITION;
+                float3 worldPos : TEXCOORD1;
+                float3 normal : NORMAL;
             };
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            SamplerState sampler_AudioGraph_Point_Repeat;
+            Texture2D<float4> _AudioTexture;
+            int _BandMode;
+            float _Band;
+            float _Width;
             
-            v2f vert (appdata v)
+            float4 _Emission;
+            float4 _RimEdge;
+            float _RimEffect;
+            float _GlobalStrength;
+            
+            float _HueSpeed;
+            float _HueShift;
+            float _HueAudioStrength;
+            float _Saturation;
+            float _SaturationAudioStrength;
+            
+            float _EnableFallback;
+            sampler2D _AudioFallbackTexture;
+            float _BPM;
+            float _Note;
+
+            #include "orels1AudioLink.cginc"
+
+            v2f vert(appdata v)
             {
                 v2f o;
                 o.vertex = UnityObjectToClipPos(v.vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                UNITY_TRANSFER_FOG(o,o.vertex);
+                o.uv = v.uv;
+                o.normal = v.normal;
+                o.worldPos = mul(unity_ObjectToWorld, v.vertex).xyz;
                 return o;
-            }
-            
-            fixed4 frag (v2f i) : SV_Target
-            {
-                // sample the texture
-                fixed4 col = tex2D(_MainTex, i.uv);
-                // apply fog
-                UNITY_APPLY_FOG(i.fogCoord, col);
-                return col;
             }
             ENDCG
         }

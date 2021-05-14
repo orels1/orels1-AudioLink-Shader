@@ -25,18 +25,18 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BPM: 128
-    - _Band: 1
-    - _BandMode: 0
+    - _Band: 2
+    - _BandMode: 1
     - _EnableFallback: 0
     - _Float0: 80
-    - _GlobalStrength: 1
+    - _GlobalStrength: 3.27
     - _HueAudioStrength: 0
     - _HueShift: 0
-    - _HueSpeed: 0.185
-    - _Note: 1
+    - _HueSpeed: 0.078
+    - _Note: 2
     - _RimEffect: 1
-    - _Saturation: 0.439
-    - _SaturationAudioStrength: 0.446
+    - _Saturation: 0.57
+    - _SaturationAudioStrength: 0.888
     - _Width: 1
     m_Colors:
     - _Emission: {r: 1.4980392, g: 1.4980392, b: 1.4980392, a: 0.85882354}
