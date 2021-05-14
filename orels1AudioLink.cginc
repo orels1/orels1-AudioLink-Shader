@@ -37,7 +37,12 @@ fixed4 frag(v2f i) : SV_Target
     float properShift = saturate(floor(_Band - 1) / 4);
     float uvScale = testh > 4 && !_EnableFallback ? 0.0625 : 1;
     float remappedWidth = Remap(i.uv.x, 0, 1, 0, abs(_Width)) * (_Width < 0 ? -1 : 1);
-    float2 uv = float2(remappedWidth, _BandMode ? properShift * uvScale : (i.uv.y + properShift) * uvScale);
+    float2 uv = float2(remappedWidth, _BandMode ? properShift : i.uv.y + properShift);
+    if (uvScale < 1)
+    {
+        uv.y %= 1;
+    }
+    uv.y *= uvScale;
     if (_EnableFallback)
     {
         float bpmOffset = BPMOffset(_BPM, _Note);
